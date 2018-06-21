@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -199,34 +198,106 @@ public class User implements UserDetails, Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getEmail(), isEnabled(), getFirstName(), getLastName(), getPassword(), getPhone(),
-				getUsername(), getUserRoles());
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((orderList == null) ? 0 : orderList.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + ((shoppingCart == null) ? 0 : shoppingCart.hashCode());
+		result = prime * result + ((userPaymentList == null) ? 0 : userPaymentList.hashCode());
+		result = prime * result + ((userRoles == null) ? 0 : userRoles.hashCode());
+		result = prime * result + ((userShippingList == null) ? 0 : userShippingList.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) {
-			return Boolean.TRUE;
-		}
-		if (obj instanceof User) {
-			User user = (User) obj;
-			return Objects.equals(email, user.email) && Objects.equals(enabled, user.enabled)
-					&& Objects.equals(firstName, user.firstName) && Objects.equals(id, user.id)
-					&& Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password)
-					&& Objects.equals(phone, user.phone) && Objects.equals(userRoles, user.userRoles)
-					&& Objects.equals(username, user.username);
-		}
-		return Boolean.FALSE;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (enabled != other.enabled)
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (orderList == null) {
+			if (other.orderList != null)
+				return false;
+		} else if (!orderList.equals(other.orderList))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (shoppingCart == null) {
+			if (other.shoppingCart != null)
+				return false;
+		} else if (!shoppingCart.equals(other.shoppingCart))
+			return false;
+		if (userPaymentList == null) {
+			if (other.userPaymentList != null)
+				return false;
+		} else if (!userPaymentList.equals(other.userPaymentList))
+			return false;
+		if (userRoles == null) {
+			if (other.userRoles != null)
+				return false;
+		} else if (!userRoles.equals(other.userRoles))
+			return false;
+		if (userShippingList == null) {
+			if (other.userShippingList != null)
+				return false;
+		} else if (!userShippingList.equals(other.userShippingList))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer outputBuffer = new StringBuffer();
-		outputBuffer.append("User [id=").append(id).append(", username=").append(username).append(", password=")
-				.append(password).append(", firstName=").append(firstName).append(", lastName=").append(lastName)
-				.append(", email=").append(email).append(", phone=").append(phone).append(", enabled=").append(enabled)
-				.append(", userRoles=").append(userRoles).append("]");
-		return outputBuffer.toString();
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", enabled=" + enabled
+				+ ", userRoles=" + userRoles + ", userPaymentList=" + userPaymentList + ", userShippingList="
+				+ userShippingList + ", shoppingCart=" + shoppingCart + ", orderList=" + orderList + "]";
 	}
+
+	
 
 }

@@ -108,4 +108,72 @@ public class Payment implements Serializable {
 		this.order = order;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
+		result = prime * result + cvc;
+		result = prime * result + (defaultPayment ? 1231 : 1237);
+		result = prime * result + expiryMonth;
+		result = prime * result + expiryYear;
+		result = prime * result + ((holderName == null) ? 0 : holderName.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Payment other = (Payment) obj;
+		if (cardNumber == null) {
+			if (other.cardNumber != null)
+				return false;
+		} else if (!cardNumber.equals(other.cardNumber))
+			return false;
+		if (cvc != other.cvc)
+			return false;
+		if (defaultPayment != other.defaultPayment)
+			return false;
+		if (expiryMonth != other.expiryMonth)
+			return false;
+		if (expiryYear != other.expiryYear)
+			return false;
+		if (holderName == null) {
+			if (other.holderName != null)
+				return false;
+		} else if (!holderName.equals(other.holderName))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (order == null) {
+			if (other.order != null)
+				return false;
+		} else if (!order.equals(other.order))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Payment [id=" + id + ", type=" + type + ", cardNumber=" + cardNumber + ", expiryMonth=" + expiryMonth
+				+ ", expiryYear=" + expiryYear + ", cvc=" + cvc + ", holderName=" + holderName + ", defaultPayment="
+				+ defaultPayment + ", order=" + order + "]";
+	}
+
 }

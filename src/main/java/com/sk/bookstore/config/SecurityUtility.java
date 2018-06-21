@@ -23,7 +23,7 @@ public class SecurityUtility {
 	@Bean
 	public static String randomPassword() {
 		final String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		StringBuilder salt = new StringBuilder();
+		final StringBuilder salt = new StringBuilder();
 		Random rnd = new Random();
 		while (salt.length() < 18) {
 			int index = (int) (rnd.nextFloat() * SALTCHARS.length());

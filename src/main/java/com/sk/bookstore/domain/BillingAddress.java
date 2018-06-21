@@ -107,5 +107,7 @@ public class BillingAddress implements Serializable {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+	
+	
 
 }

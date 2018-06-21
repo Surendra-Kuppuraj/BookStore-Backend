@@ -6,17 +6,13 @@ package com.sk.bookstore.config;
 import java.util.Locale;
 
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 
 import com.sk.bookstore.domain.Order;
 import com.sk.bookstore.domain.User;
@@ -29,42 +25,43 @@ import com.sk.bookstore.domain.User;
 public class MailConstructor {
 
 	@Autowired
-	private Environment env;
-	
-	@Autowired
 	private TemplateEngine templateEngine;
 
-
-	// TODO Implement the template for Email using freemaker.
-	public SimpleMailMessage constructNewUserEmail(User user, String password) {
-		String message = "Your User name is " + user.getUsername() + " \n Your Password is " + password;
-		SimpleMailMessage email = new SimpleMailMessage();
-		email.setTo(user.getEmail());
-		email.setSubject("SK Groups Book Shop User Registration");
-		email.setText(message);
-		email.setFrom(env.getProperty("support.email"));
-		return email;
+	public MimeMessagePreparator createNewUserRegistrationeEmail(final User user, final String password) {
+		return this.setContextAndEmail(user, password, "userRegistrationEmailTemplate", "SK Group - Bookstore User Registration");
 	}
 
-	public MimeMessagePreparator constructOrderConfirmationEmail(final User user, final Order order, final Locale locale) {
+	public MimeMessagePreparator createForgottenPasswordEmail(final User user, final String password) {
+		return this.setContextAndEmail(user, password, "forgotenPasswordRequestEmailTemplate",
+				"SK Group - Bookstore Renewed Password");
+	}
+
+	public MimeMessagePreparator constructOrderConfirmationEmail(final User user, final Order order,
+			final Locale locale) {
 		Context context = new Context();
 		context.setVariable("order", order);
 		context.setVariable("user", user);
 		context.setVariable("cartItemList", order.getCartItemList());
-		String text = templateEngine.process("orderConfirmationEmailTemplate", context);
-
-		MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
-			@Override
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-				MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
-				email.setTo(user.getEmail());
-				email.setSubject("Order Confirmation - " + order.getId());
-				email.setText(text, true);
-				email.setFrom(new InternetAddress("sk.groups.info@gmail.com"));
-			}
-		};
-
-		return messagePreparator;
+		final String text = templateEngine.process("orderConfirmationEmailTemplate", context);
+		return this.setEmail(user.getEmail(), "SK Group - Bookstore Order Confirmation " + order.getId(), text);
 	}
 
+	private MimeMessagePreparator setContextAndEmail(final User user, final String password,
+			final String templateFileName, final String subject) {
+		Context context = new Context();
+		context.setVariable("username", user.getUsername());
+		context.setVariable("password", password);
+		final String text = templateEngine.process(templateFileName, context);
+		return this.setEmail(user.getEmail(), subject, text);
+	}
+	
+	private MimeMessagePreparator setEmail(final String senderEmail, final String subject, final String message) {
+		return (mimeMessage) -> {
+			MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
+			email.setTo(senderEmail);
+			email.setFrom(new InternetAddress("sk.groups.info@gmail.com"));
+			email.setSubject(subject);
+			email.setText(message, true);
+		};
+	}
 }
