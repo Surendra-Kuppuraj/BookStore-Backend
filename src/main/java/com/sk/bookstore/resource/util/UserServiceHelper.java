@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sk.bookstore.domain.User;
+import com.sk.bookstore.exception.UserResouceException;
 import com.sk.bookstore.service.UserService;
 
 /**
@@ -30,8 +31,9 @@ public class UserServiceHelper {
 		final String userName = principal.getName();
 		Optional<User> optionalUser = userService.findByUserName(userName);
 		if (!optionalUser.isPresent()) {
-			LOGGER.error("Given username " + userName + " is not found at the moment in our application");
-			// TODO add controller adviser.
+			final String errorMessage = "Given username " + userName + " is not found at the moment in our application";
+			LOGGER.error(errorMessage);
+			throw new UserResouceException(errorMessage);
 		}
 		return optionalUser.get();
 	}

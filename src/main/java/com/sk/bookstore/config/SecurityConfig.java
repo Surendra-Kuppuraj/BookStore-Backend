@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.sk.bookstore.service.UserSecurityService;
 
@@ -33,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/css/**",
 			"/js/**",
 			"/image/**",
+			"/image/book/**",
 			"/book/**",
 			"/user/**",
 			"/account/**"
@@ -53,5 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public HttpSessionStrategy httpSessionStrategy() {
 		return new HeaderHttpSessionStrategy();
 	}
+
 }
 

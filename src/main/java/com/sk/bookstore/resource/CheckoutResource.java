@@ -6,6 +6,7 @@ package com.sk.bookstore.resource;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -62,7 +63,9 @@ public class CheckoutResource {
 		BillingAddress billingAddress = om.convertValue(mapper.get("billingAddress"), BillingAddress.class);
 		Payment payment = om.convertValue(mapper.get("payment"), Payment.class);
 		String shippingMethod = (String) mapper.get("shippingMethod");
-
+		if(Objects.isNull(shippingAddress) || Objects.isNull(billingAddress) || Objects.isNull(payment) ) {
+			throw new IllegalArgumentException("Invalid Argument has been specified either in shippingAddress or Billing Address or in Payment");
+		}
 		final User user = userServiceHelper.getUser(principal);
 		final ShoppingCart shoppingCart = user.getShoppingCart();
 		cartItemService.findByShoppingCart(shoppingCart);

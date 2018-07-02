@@ -6,7 +6,6 @@ package com.sk.bookstore.service;
 import java.util.Optional;
 import java.util.Set;
 
-import com.sk.bookstore.domain.Address;
 import com.sk.bookstore.domain.User;
 import com.sk.bookstore.domain.UserBilling;
 import com.sk.bookstore.domain.UserPayment;
@@ -19,7 +18,6 @@ import com.sk.bookstore.domain.security.UserRole;
  */
 public interface UserService {
 
-	//TODO Default 
 	User createUser(User user, Set<UserRole> userRoles);
 
 	Optional<User> findByUserName(String userName);

@@ -3,28 +3,21 @@
  */
 package com.sk.bookstore.exception;
 
-import com.sk.bookstore.resource.constant.MessageEnum;
-
 /**
  * @author Surendra Kumar
  *
  */
-public class UserResouceException extends Exception {
+public class UserResouceException extends RuntimeException {
 
 	private static final long serialVersionUID = 1676882409L;
 	private String errorMessage;
 
-	public UserResouceException(MessageEnum usernameExists) {
-		super(usernameExists.toString());
-		this.errorMessage = usernameExists.toString();
+	public UserResouceException(String errorMessage) {
+		super(errorMessage);
+		this.errorMessage = errorMessage;
 	}
-
-	public UserResouceException() {
-		super();
-	}
-
 	public String getErrorMessage() {
-		return errorMessage;
+		return this.errorMessage;
 	}
 
 }

@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ApplicationResponseEntityExceptionalHandler extends ResponseEntityExceptionHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationResponseEntityExceptionalHandler.class);
 
-	@ExceptionHandler(value = { DataBaseException.class })
+	@ExceptionHandler(DataBaseException.class)
 	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
 		final String bodyOfResponse = "Our Backend application server has been down for a moment. Our Development team is on the way.";
 		LOGGER.error("Database problem has been occured: " + ex.getMessage());

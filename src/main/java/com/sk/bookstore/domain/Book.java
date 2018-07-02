@@ -182,41 +182,4 @@ public class Book implements Serializable {
 		this.bookImage = bookImage;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(getId(), getTitle(), getAuthor(), getPublisher(), getPublicationDate(), getLanguage(),
-				getCategory(), getNumberOfPages(), getFormat(), getIsbn(), getShippingWeight(), getListPrice(),
-				getOurPrice(), isActive(), getDescription(), getInStockNumber(), getBookImage());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return Boolean.TRUE;
-		}
-		if (obj instanceof Book) {
-			Book book = (Book) obj;
-			return Objects.equals(author, book.author) && Objects.equals(bookImage, book.bookImage)
-					&& Objects.equals(category, book.category) && Objects.equals(format, book.format)
-					&& Objects.equals(language, book.language) && Objects.equals(publicationDate, book.publicationDate)
-					&& Objects.equals(description, book.description) && Objects.equals(id, book.id)
-					&& Objects.equals(isbn, book.isbn) && Objects.equals(publisher, book.publisher)
-					&& Objects.equals(title, book.title);
-		}
-		return Boolean.FALSE;
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer outputBuffer = new StringBuffer().append("Book [id=").append(id).append("title=").append(title)
-				.append(", author=").append(author).append(", publisher=").append(publisher)
-				.append(", publicationDate=").append(publicationDate).append(", language=").append(language)
-				.append(", category=").append(category).append(", numberOfPages=").append(numberOfPages)
-				.append(", format=").append(format).append(", isbn=").append(isbn).append(", shippingWeight=")
-				.append(shippingWeight).append(" listPrice=").append(listPrice).append(", ourPrice=").append(ourPrice)
-				.append(", active=").append(active).append(", description=").append(description)
-				.append(", inStockNumber=").append(inStockNumber).append(", bookImage=").append(bookImage).append("]");
-		return outputBuffer.toString();
-	}
-
 }
