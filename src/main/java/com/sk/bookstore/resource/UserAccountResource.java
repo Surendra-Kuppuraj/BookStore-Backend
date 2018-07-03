@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -91,7 +92,12 @@ public class UserAccountResource {
 		if (Objects.isNull(createdUser)) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
 		}
-		mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
+		try {
+			mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
+		}catch(MailException mailEx) {
+			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
+
+		}
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_SUCCESS), HttpStatus.OK);
 	}
 	
