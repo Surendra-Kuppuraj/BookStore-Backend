@@ -33,7 +33,7 @@ public class RequestFilter implements Filter {
 			try {
 				chain.doFilter(req, res);
 			} catch (Exception ex) {
-				LOGGER.error("Proccessing response header could not be countinued in the filter chain " + ex);
+				LOGGER.error("Pre-proccessing response header could not be countinued in the filter chain " + ex);
 			}
 		} else {
 			response.setHeader("Access-Control-Allowed-Methods", "POST, GET, DELETE");
