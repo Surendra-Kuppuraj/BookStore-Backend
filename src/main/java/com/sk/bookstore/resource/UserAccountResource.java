@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sk.bookstore.config.MailConstructor;
 import com.sk.bookstore.config.SecurityUtility;
+import com.sk.bookstore.config.SendGridMailConstructor;
 import com.sk.bookstore.domain.User;
 import com.sk.bookstore.domain.security.Role;
 import com.sk.bookstore.domain.security.UserRole;
@@ -56,6 +57,9 @@ public class UserAccountResource {
 	
 	@Autowired
 	private MailConstructor mailConstructor;
+	
+	@Autowired
+	private SendGridMailConstructor sendGridMailConstructor;
 
 	@PostMapping("/new")
 	public ResponseEntity<ResponseMessage> createUser(HttpServletRequest request,
@@ -93,6 +97,7 @@ public class UserAccountResource {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
 		}
 		try {
+			sendGridMailConstructor.sendEmail();
 			mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
 		}catch(MailException mailEx) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
