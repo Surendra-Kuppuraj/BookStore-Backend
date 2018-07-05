@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sk.bookstore.config.MailConstructor;
+import com.sk.bookstore.config.MailConstructorImpl;
 import com.sk.bookstore.config.SecurityUtility;
-import com.sk.bookstore.config.SendGridMailConstructor;
+import com.sk.bookstore.config.GridMailConstructor;
 import com.sk.bookstore.domain.User;
 import com.sk.bookstore.domain.security.Role;
 import com.sk.bookstore.domain.security.UserRole;
@@ -56,10 +56,10 @@ public class UserAccountResource {
 	private JavaMailSender mailSender;
 	
 	@Autowired
-	private MailConstructor mailConstructor;
+	private MailConstructorImpl mailConstructor;
 	
 	@Autowired
-	private SendGridMailConstructor sendGridMailConstructor;
+	private GridMailConstructor sendGridMailConstructor;
 
 	@PostMapping("/new")
 	public ResponseEntity<ResponseMessage> createUser(HttpServletRequest request,

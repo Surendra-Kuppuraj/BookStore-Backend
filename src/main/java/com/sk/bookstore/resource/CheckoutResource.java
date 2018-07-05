@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sk.bookstore.config.MailConstructor;
+import com.sk.bookstore.config.MailConstructorImpl;
 import com.sk.bookstore.domain.BillingAddress;
 import com.sk.bookstore.domain.Order;
 import com.sk.bookstore.domain.Payment;
@@ -53,7 +53,7 @@ public class CheckoutResource {
 	private ShoppingCartService shoppingCartService;
 
 	@Autowired
-	private MailConstructor mailConstructor;
+	private MailConstructorImpl mailConstructor;
 
 	@PostMapping
 	public Order checkout(@RequestBody final HashMap<String, Object> mapper, final Principal principal) {
