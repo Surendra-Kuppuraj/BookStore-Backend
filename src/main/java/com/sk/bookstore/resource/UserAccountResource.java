@@ -97,8 +97,8 @@ public class UserAccountResource {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
 		}
 		try {
-			sendGridMailConstructor.sendEmail();
-			mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
+			sendGridMailConstructor.sendEmail(createdUser, password);
+			//mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
 		}catch(MailException mailEx) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
 
