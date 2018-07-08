@@ -111,11 +111,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUserBilling(final User user, final UserPayment userPayment) {
-		UserBilling userBilling = userPayment.getUserBilling();
 		userPayment.setUser(user);
-		userPayment.setUserBilling(userBilling);
 		userPayment.setDefaultPayment(true);
-		userBilling.setUserPayment(userPayment);
 		user.getUserPaymentList().add(userPayment);
 		userSave(user);
 	}
@@ -139,7 +136,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUserShipping(final UserShipping userShipping, final User user) {
 		userShipping.setUser(user);
-		userShipping.setDefaultShipping(false);
+		userShipping.setDefaultShipping(true);
 		user.getUserShippingList().add(userShipping);
 		userSave(user);
 	}

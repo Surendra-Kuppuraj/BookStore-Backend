@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -115,8 +114,6 @@ public class User implements UserDetails, Serializable{
 		this.phone = phone;
 	}
 
-	
-
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
@@ -129,8 +126,6 @@ public class User implements UserDetails, Serializable{
 		this.userRoles = userRoles;
 	}
 	
-	
-
 	public List<UserPayment> getUserPaymentList() {
 		return userPaymentList;
 	}
@@ -138,8 +133,6 @@ public class User implements UserDetails, Serializable{
 	public void setUserPaymentList(List<UserPayment> userPaymentList) {
 		this.userPaymentList = userPaymentList;
 	}
-	
-	
 
 	public List<UserShipping> getUserShippingList() {
 		return userShippingList;
@@ -148,8 +141,6 @@ public class User implements UserDetails, Serializable{
 	public void setUserShippingList(List<UserShipping> userShippingList) {
 		this.userShippingList = userShippingList;
 	}
-	
-	
 
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;

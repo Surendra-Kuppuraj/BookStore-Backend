@@ -5,15 +5,13 @@ package com.sk.bookstore.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,8 +41,8 @@ public class UserPayment implements Serializable {
 	@JsonIgnore
 	private User user;
 
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "userPayment")
-	private UserBilling userBilling;
+	@Embedded
+	private Address address = new Address();
 
 	public Long getId() {
 		return id;
@@ -126,11 +124,11 @@ public class UserPayment implements Serializable {
 		this.user = user;
 	}
 
-	public UserBilling getUserBilling() {
-		return userBilling;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setUserBilling(UserBilling userBilling) {
-		this.userBilling = userBilling;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }

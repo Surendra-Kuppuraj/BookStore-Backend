@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sk.bookstore.config.MailConstructor;
 import com.sk.bookstore.config.MailConstructorImpl;
 import com.sk.bookstore.config.SecurityUtility;
-import com.sk.bookstore.config.GridMailConstructor;
 import com.sk.bookstore.domain.User;
 import com.sk.bookstore.domain.security.Role;
 import com.sk.bookstore.domain.security.UserRole;
@@ -56,10 +56,10 @@ public class UserAccountResource {
 	private JavaMailSender mailSender;
 	
 	@Autowired
-	private MailConstructorImpl mailConstructor;
+	private MailConstructorImpl mailConstructorImpl;
 	
 	@Autowired
-	private GridMailConstructor sendGridMailConstructor;
+	private MailConstructor mailConstructor;
 
 	@PostMapping("/new")
 	public ResponseEntity<ResponseMessage> createUser(HttpServletRequest request,
@@ -97,7 +97,8 @@ public class UserAccountResource {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
 		}
 		try {
-			sendGridMailConstructor.sendEmail(createdUser, password);
+			mailConstructor.createNewUserRegistrationeEmail(createdUser, password);
+			//sendGridMailConstructor.sendEmail(createdUser, password);
 			//mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
 		}catch(MailException mailEx) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
@@ -125,7 +126,7 @@ public class UserAccountResource {
 		if (!savedUser.isPresent()) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.UPDATE_FAILED), HttpStatus.BAD_REQUEST);
 		}
-		mailSender.send(mailConstructor.createForgottenPasswordEmail(user, password));
+		mailSender.send(mailConstructorImpl.createForgottenPasswordEmail(user, password));
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.EMAIL_SENT), HttpStatus.OK);
 	}
 	
