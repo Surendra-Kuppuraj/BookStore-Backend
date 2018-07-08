@@ -28,7 +28,7 @@ public class MailGunConstructor implements MailConstructor {
 			request = Unirest.post("https://api.mailgun.net/v3/" +System.getenv().get("MAILGUN_DOMAIN") + "/messages")
 			         .basicAuth("api", System.getenv().get("MAILGUN_API_KEY"))
 			     .queryString("from", System.getenv().get("MAILGUN_SMTP_LOGIN"))
-			     .queryString("to", "artemis@example.com")
+			     .queryString("to", user.getEmail())
 			     .queryString("subject", "hello")
 			     .queryString("text", "testing")
 			     .asJson();
