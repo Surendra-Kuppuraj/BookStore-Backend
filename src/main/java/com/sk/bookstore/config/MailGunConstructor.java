@@ -5,6 +5,8 @@ package com.sk.bookstore.config;
 
 import java.util.Locale;
 
+import org.springframework.stereotype.Component;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -16,8 +18,8 @@ import com.sk.bookstore.domain.User;
  * @author Surendra Kumar
  *
  */
+@Component
 public class MailGunConstructor implements MailConstructor {
-
 	
 	@Override
 	public void createNewUserRegistrationeEmail(User user, String password) {
