@@ -102,7 +102,6 @@ public class UserAccountResource {
 			//mailSender.send(mailConstructor.createNewUserRegistrationeEmail(createdUser, password));
 		}catch(MailException mailEx) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
-
 		}
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_SUCCESS), HttpStatus.OK);
 	}

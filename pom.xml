@@ -74,15 +74,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.mashape.unirest</groupId>
-			<artifactId>unirest-java</artifactId>
-			<version>1.4.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.sargue</groupId>
-			<artifactId>mailgun</artifactId>
-			<version>1.9.0</version>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.2.1</version>
 		</dependency>
 
 		<dependency>

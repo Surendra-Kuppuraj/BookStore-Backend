@@ -3,14 +3,18 @@
  */
 package com.sk.bookstore.config;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.sendgrid.Content;
+import com.sendgrid.Email;
+import com.sendgrid.Mail;
+import com.sendgrid.Method;
+import com.sendgrid.Request;
+import com.sendgrid.Response;
+import com.sendgrid.SendGrid;
 import com.sk.bookstore.domain.Order;
 import com.sk.bookstore.domain.User;
 
@@ -23,19 +27,25 @@ public class MailGunConstructor implements MailConstructor {
 	
 	@Override
 	public void createNewUserRegistrationeEmail(User user, String password) {
-		 HttpResponse<JsonNode> request;
-		try {
-			request = Unirest.post("https://api.mailgun.net/v3/" +System.getenv().get("MAILGUN_DOMAIN") + "/messages")
-			         .basicAuth("api", System.getenv().get("MAILGUN_API_KEY"))
-			     .queryString("from", System.getenv().get("MAILGUN_SMTP_LOGIN"))
-			     .queryString("to", user.getEmail())
-			     .queryString("subject", "hello")
-			     .queryString("text", "testing")
-			     .asJson();
-			request.getBody();
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}	
+		    Email from = new Email("surendra.kumar.kuppuraj@gmail.com");
+		    String subject = "Sending with SendGrid is Fun";
+		    Email to = new Email(user.getEmail());
+		    Content content = new Content("text/plain", user.getUsername() + " -- "+password);
+		    Mail mail = new Mail(from, subject, to, content);
+
+		    SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
+		    Request request = new Request();
+		    try {
+		      request.setMethod(Method.POST);
+		      request.setEndpoint("mail/send");
+		      request.setBody(mail.build());
+		      Response response = sg.api(request);
+		      System.out.println(response.getStatusCode());
+		      System.out.println(response.getBody());
+		      System.out.println(response.getHeaders());
+		    } catch (IOException ex) {
+		      
+		    }
 	}
 
 	
