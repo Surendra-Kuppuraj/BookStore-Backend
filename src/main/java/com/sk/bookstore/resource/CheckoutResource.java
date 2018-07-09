@@ -40,9 +40,6 @@ public class CheckoutResource {
 	private Order order = new Order();
 
 	@Autowired
-	private JavaMailSender mailSender;
-
-	@Autowired
 	private UserServiceHelper userServiceHelper;
 
 	@Autowired
@@ -79,7 +76,7 @@ public class CheckoutResource {
 		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod,
 				user);
 		sendGridMailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH);
-		javaMailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH);
+		//javaMailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH);
 		shoppingCartService.clearShoppingCart(shoppingCart);
 		return order;
 	}

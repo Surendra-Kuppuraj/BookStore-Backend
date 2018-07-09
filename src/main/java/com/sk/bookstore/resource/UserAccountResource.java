@@ -98,7 +98,7 @@ public class UserAccountResource {
 		//For Production environment
 		sendGridMailConstructor.createNewUserRegistrationeEmail(createdUser, password);
 		//For test environment
-		javaMailConstructor.createNewUserRegistrationeEmail(createdUser, password);
+		//javaMailConstructor.createNewUserRegistrationeEmail(createdUser, password);
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_SUCCESS), HttpStatus.OK);
 	}
 
@@ -122,7 +122,7 @@ public class UserAccountResource {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.UPDATE_FAILED), HttpStatus.BAD_REQUEST);
 		}
 		sendGridMailConstructor.createForgottenPasswordEmail(user, password);
-		javaMailConstructor.createForgottenPasswordEmail(user, password);
+		//javaMailConstructor.createForgottenPasswordEmail(user, password);
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.EMAIL_SENT), HttpStatus.OK);
 	}
 
