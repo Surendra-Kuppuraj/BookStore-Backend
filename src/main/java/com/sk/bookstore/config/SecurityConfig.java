@@ -54,6 +54,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public HttpSessionStrategy httpSessionStrategy() {
 		return new HeaderHttpSessionStrategy();
 	}
-
 }
 

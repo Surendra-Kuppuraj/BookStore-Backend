@@ -41,4 +41,10 @@ public class ApplicationResponseEntityExceptionalHandler extends ResponseEntityE
 		LOGGER.error(bodyOfResponse + ": " + ex.getMessage());
 		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 	}
+	@ExceptionHandler(EmailConstructorException.class)
+	protected ResponseEntity<Object> emailConstructorExceptionHandler(EmailConstructorException ex, WebRequest request) {
+		final String bodyOfResponse = "Email Server Connection Lost";
+		LOGGER.error(bodyOfResponse + ": " + ex.getMessage());
+		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.SERVICE_UNAVAILABLE, request);
+	}
 }

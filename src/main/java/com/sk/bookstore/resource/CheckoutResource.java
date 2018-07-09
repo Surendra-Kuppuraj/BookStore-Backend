@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sk.bookstore.config.MailConstructorImpl;
 import com.sk.bookstore.domain.BillingAddress;
 import com.sk.bookstore.domain.Order;
 import com.sk.bookstore.domain.Payment;
 import com.sk.bookstore.domain.ShippingAddress;
 import com.sk.bookstore.domain.ShoppingCart;
 import com.sk.bookstore.domain.User;
+import com.sk.bookstore.mail.MailConstructor;
+import com.sk.bookstore.mail.impl.JavaMailConstructor;
 import com.sk.bookstore.resource.util.UserServiceHelper;
 import com.sk.bookstore.service.CartItemService;
 import com.sk.bookstore.service.OrderService;
@@ -53,7 +55,12 @@ public class CheckoutResource {
 	private ShoppingCartService shoppingCartService;
 
 	@Autowired
-	private MailConstructorImpl mailConstructor;
+	@Qualifier(value = "javaMailConstructor")
+	private MailConstructor javaMailConstructor;
+
+	@Autowired
+	@Qualifier(value = "sendGridMailConstructor")
+	private MailConstructor sendGridMailConstructor;
 
 	@PostMapping
 	public Order checkout(@RequestBody final HashMap<String, Object> mapper, final Principal principal) {
@@ -71,9 +78,9 @@ public class CheckoutResource {
 		cartItemService.findByShoppingCart(shoppingCart);
 		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod,
 				user);
-		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH));
+		sendGridMailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH);
+		javaMailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH);
 		shoppingCartService.clearShoppingCart(shoppingCart);
-		// this.order = order;
 		return order;
 	}
 

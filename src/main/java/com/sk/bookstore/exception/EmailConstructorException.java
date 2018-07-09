@@ -7,7 +7,7 @@ package com.sk.bookstore.exception;
  * @author Surendra Kumar
  *
  */
-public class DataBaseException extends RuntimeException {
+public class EmailConstructorException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	private final String errorMessage;
 
@@ -15,14 +15,12 @@ public class DataBaseException extends RuntimeException {
 		return errorMessage;
 	}
 
-	public DataBaseException(final String errorMessage) {
-		super(errorMessage);
+	public EmailConstructorException(final String errorMessage) {
+		super();
 		this.errorMessage = errorMessage;
 	}
-
-	public DataBaseException(Throwable errorMessage) {
+	public EmailConstructorException(Throwable errorMessage) {
 		super(errorMessage);
 		this.errorMessage = errorMessage.getMessage();
 	}
-
 }
