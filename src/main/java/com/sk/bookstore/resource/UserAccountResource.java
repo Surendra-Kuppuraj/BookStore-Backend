@@ -28,7 +28,7 @@ import com.sk.bookstore.config.SecurityUtility;
 import com.sk.bookstore.domain.User;
 import com.sk.bookstore.domain.security.Role;
 import com.sk.bookstore.domain.security.UserRole;
-import com.sk.bookstore.mail.MailConstructor;
+import com.sk.bookstore.mail.UserAccountEmailConstructor;
 import com.sk.bookstore.resource.constant.MessageEnum;
 import com.sk.bookstore.resource.util.ResponseMessage;
 import com.sk.bookstore.service.UserService;
@@ -52,12 +52,12 @@ public class UserAccountResource {
 
 
 	@Autowired
-	@Qualifier(value = "javaMailConstructor")
-	private MailConstructor javaMailConstructor;
+	@Qualifier(value = "javaUserAccountEmailConstructor")
+	private UserAccountEmailConstructor javaUserAccountEmailConstructor;
 
 	@Autowired
-	@Qualifier(value = "sendGridMailConstructor")
-	private MailConstructor sendGridMailConstructor;
+	@Qualifier(value = "sendGridUserAccountConstructor")
+	private UserAccountEmailConstructor sendGridUserAccountEmailConstructor;
 
 	@PostMapping("/new")
 	public ResponseEntity<ResponseMessage> createUser(HttpServletRequest request,
@@ -96,9 +96,9 @@ public class UserAccountResource {
 		}
 		
 		//For Production environment
-		sendGridMailConstructor.createNewUserRegistrationeEmail(createdUser, password);
+		sendGridUserAccountEmailConstructor.sendNewUserRegistrationeEmail(createdUser, password);
 		//For test environment
-		//javaMailConstructor.createNewUserRegistrationeEmail(createdUser, password);
+		//javaUserAccountEmailConstructor.createNewUserRegistrationeEmail(createdUser, password);
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_SUCCESS), HttpStatus.OK);
 	}
 
@@ -121,8 +121,8 @@ public class UserAccountResource {
 		if (!savedUser.isPresent()) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.UPDATE_FAILED), HttpStatus.BAD_REQUEST);
 		}
-		sendGridMailConstructor.createForgottenPasswordEmail(user, password);
-		//javaMailConstructor.createForgottenPasswordEmail(user, password);
+		sendGridUserAccountEmailConstructor.sendForgottenPasswordEmail(user, password);
+		//javaUserAccountEmailConstructor.createForgottenPasswordEmail(user, password);
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.EMAIL_SENT), HttpStatus.OK);
 	}
 
