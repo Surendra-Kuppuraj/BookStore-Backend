@@ -3,6 +3,8 @@
  */
 package com.sk.bookstore.mail.impl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 import org.slf4j.Logger;
@@ -40,14 +42,42 @@ public class SendGridEmailServer implements EmailServer {
 		final Mail mail = new Mail(setEmailObject(environment.getProperty("bookstore.support.email")), subject,
 				setEmailObject(emailTo), content);
 		//Attaching logo image.
-		 Attachments attachment = new Attachments();
-		 attachment.setContent("logo");
+
+	    // You can skip this and just add the base64 content directly, but I was having issues with my editor slowing down
+		BufferedReader br =  null; 
+	    String base64_encoded_data = null;
+
+		try {
+		br = new BufferedReader(new FileReader("logo.txt"));
+	   
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+
+	        while (line != null) {
+	            sb.append(line);
+	            sb.append(System.lineSeparator());
+	            line = br.readLine();
+	        }
+	        base64_encoded_data = sb.toString();
+	    } catch(Exception ex){
+	    	
+	    }finally {
+	        try {
+				br.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    Attachments attachment = new Attachments();
+	    // You must remove the trailing newline
+	    String data = base64_encoded_data.trim();
+		 attachment.setContent(data);
 		 attachment.setType("image/png");
 		 attachment.setFilename("keys.png");
 		 attachment.setDisposition("inline");
 		 attachment.setContentId("imageResourceName");
 		 mail.addAttachments(attachment);
-
 
 		// Sending email using Email Server.
 		SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));

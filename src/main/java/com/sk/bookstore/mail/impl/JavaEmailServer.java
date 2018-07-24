@@ -41,7 +41,7 @@ public class JavaEmailServer implements EmailServer {
 				email.setFrom(new InternetAddress(environment.getProperty("bookstore.support.email")));
 				email.setSubject(subject);
 				email.setText(emailText, true);
-				email.addInline("logo", new ClassPathResource("static/image/sklogos/keys.png"), "image/png");
+				email.addInline("logo", new ClassPathResource("/static/image/sklogos/keys.png"), "image/png");
 			});
 			LOGGER.info("Email {} has been send successfully to the user ", emailTo);
 		} catch (MailException ex) {
