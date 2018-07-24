@@ -8,6 +8,5 @@ package com.sk.bookstore.mail;
  *
  */
 public interface EmailServer {
-
-	public void sendEmail(final String emailTo, final String subject, final String emailText);	
+	public void sendEmail(final String emailTo, final String subject, final String emailText);	 
 }

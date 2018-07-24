@@ -26,10 +26,12 @@ public class UserSecurityService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username);
+
 		if(Objects.isNull(user)) {
 			LOGGER.warn("Username {} not found", username);
 			throw new UsernameNotFoundException("Username "+username+" not found");
 		}
+		LOGGER.info("User {} has been authenticated in our SK International Group " + username);
 		return user;
 	}
 }

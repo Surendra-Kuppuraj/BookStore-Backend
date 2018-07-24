@@ -1,6 +1,8 @@
 package com.sk.bookstore.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,6 +38,7 @@ public class Book implements Serializable {
 	private double shippingWeight;
 	private double listPrice;
 	private double ourPrice;
+	private LocalDate bookAddedDate;
 	private boolean active = true;
 
 	@Column(columnDefinition = "text")
@@ -181,4 +184,11 @@ public class Book implements Serializable {
 		this.bookImage = bookImage;
 	}
 
+	public LocalDate getBookAddedDate() {
+		return bookAddedDate;
+	}
+
+	public void setBookAddedDate(LocalDate bookAddedDate) {
+		this.bookAddedDate = LocalDate.now();
+	}
 }

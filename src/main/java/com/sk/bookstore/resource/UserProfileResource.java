@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sk.bookstore.config.SecurityUtility;
 import com.sk.bookstore.domain.User;
 import com.sk.bookstore.resource.constant.MessageEnum;
+import com.sk.bookstore.resource.constant.UserDatabaseFieldEnum;
 import com.sk.bookstore.resource.util.ResponseHttpStatusMessage;
 import com.sk.bookstore.resource.util.ResponseMessage;
 import com.sk.bookstore.resource.util.UserServiceHelper;
@@ -40,26 +41,23 @@ import com.sk.bookstore.service.UserService;
 public class UserProfileResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserProfileResource.class);
-	private static final String USER_NAME = "userName";
-	private static final String EMAIL = "email";
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserServiceHelper userServiceHelper;
 
 	@PutMapping()
 	public ResponseEntity<?> profileInfo(@Valid @RequestBody HashMap<String, Object> mapper) throws Exception {
-		final int id = (Integer) mapper.get("id");
-		final String email = (String) mapper.get(EMAIL);
-		final String username = (String) mapper.get(USER_NAME);
-		final String firstName = (String) mapper.get("firstName");
-		final String lastName = (String) mapper.get("lastName");
-		final String newPassword = (String) mapper.get("newPassword");
-		final String checkNewPassword = (String) mapper.get("checkNewPassword");
-		final String currentPassword = (String) mapper.get("currentPassword");
-
+		final int id = (Integer) mapper.get(UserDatabaseFieldEnum.ID.fieldName());
+		final String email = (String) mapper.get(UserDatabaseFieldEnum.EMAIL.fieldName());
+		final String username = (String) mapper.get(UserDatabaseFieldEnum.USER_NAME.fieldName());
+		final String firstName = (String) mapper.get(UserDatabaseFieldEnum.FIRST_NAME.fieldName());
+		final String lastName = (String) mapper.get(UserDatabaseFieldEnum.LAST_NAME.fieldName());
+		final String newPassword = (String) mapper.get(UserDatabaseFieldEnum.NEW_PASSWORD.fieldName());
+		final String checkNewPassword = (String) mapper.get(UserDatabaseFieldEnum.CHECK_PASSWORD.fieldName());
+		final String currentPassword = (String) mapper.get(UserDatabaseFieldEnum.CURRENT_PASSWORD.fieldName());
 		Optional<User> currentUserById = userService.findById(Long.valueOf(id));
 		if (!currentUserById.isPresent()) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.UPDATE_FAILED), HttpStatus.BAD_REQUEST);
@@ -73,24 +71,25 @@ public class UserProfileResource {
 
 		Optional<User> currentUserByEmail = userService.findByEmail(email);
 		if (currentUserByEmail.isPresent() && currentUserByEmail.get().getId() != currentUserId) {
-			errorList.add("EmailAlredyExists");
+			errorList.add("Email Alredy Exists");
 		}
 		Optional<User> currentUserByUserName = userService.findByUserName(username);
 		if (!currentUserByUserName.isPresent() && currentUserByUserName.get().getId() != currentUserId) {
-			errorList.add("UserNameAlreadyExists");
+			errorList.add("User Name Already Exists");
 		}
 		if (isNullOrEmpty(newPassword) || isNullOrEmpty(checkNewPassword) || !newPassword.equals(checkNewPassword)) {
-			errorList.add("NewPasswordMismatch");
+			errorList.add("New Password Mismatch");
 		}
-		if (isNullOrEmpty(currentPassword)) {
-			errorList.add("MissingCurrentPassword");
-		}
-		if (!passwordEncoder.matches(currentPassword, dbPassword)) {
-			errorList.add("MissMatchedPassword");
+
+		if (isNullOrEmpty(currentPassword) || !passwordEncoder.matches(currentPassword, dbPassword)) {
+			errorList.add("Wrong Current Password");
 		}
 		if (!errorList.isEmpty()) {
-			LOGGER.error("Various error has been found while updating user name "+ username  +" with profile: " + errorList.toString());
-			return new ResponseEntity<>(new ResponseHttpStatusMessage(errorList), HttpStatus.BAD_REQUEST);
+			final String errorDescription = "Various error has been found while updating user name " + username
+					+ " with profile ";
+			LOGGER.error(errorDescription + errorList.toString());
+			return new ResponseEntity<>(new ResponseHttpStatusMessage("Invalid inputs", errorDescription, errorList),
+					HttpStatus.BAD_REQUEST);
 		}
 
 		currentUser.setPassword(passwordEncoder.encode(newPassword));

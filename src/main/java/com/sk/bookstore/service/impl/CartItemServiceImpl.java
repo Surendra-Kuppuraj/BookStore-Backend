@@ -38,10 +38,10 @@ public class CartItemServiceImpl implements CartItemService {
 	private BookToCartItemRepository bookToCartItemRepository;
 
 	public CartItem addBookToCartItem(Book book, User user, int qty) {
-		List<CartItem> cartItemList = findByShoppingCart(user.getShoppingCart());
+		final List<CartItem> cartItemList = findByShoppingCart(user.getShoppingCart());
 
 		// For existing cartItem to update.
-		Function<CartItem, CartItem> cartItemMapper = (CartItem cartItem) -> {
+		final Function<CartItem, CartItem> cartItemMapper = (CartItem cartItem) -> {
 			cartItem.setQty(cartItem.getQty() + qty);
 			cartItem.setSubtotal(new BigDecimal(book.getOurPrice()).multiply(new BigDecimal(qty)));
 			return this.save(cartItem);
@@ -60,7 +60,7 @@ public class CartItemServiceImpl implements CartItemService {
 		cartItem.setSubtotal(new BigDecimal(book.getOurPrice()).multiply(new BigDecimal(qty)));
 		cartItem = this.save(cartItem);
 
-		BookToCartItem bookToCartItem = new BookToCartItem();
+		final BookToCartItem bookToCartItem = new BookToCartItem();
 		bookToCartItem.setBook(book);
 		bookToCartItem.setCartItem(cartItem);
 		saveBookToCartItem(bookToCartItem);

@@ -35,6 +35,7 @@ public class UserServiceHelper {
 			LOGGER.error(errorMessage);
 			throw new UserResouceException(errorMessage);
 		}
+		LOGGER.info(userName + " is Username and"+ optionalUser.get().getEmail());
 		return optionalUser.get();
 	}
 

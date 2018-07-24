@@ -22,6 +22,7 @@ import com.sk.bookstore.domain.Book;
 import com.sk.bookstore.domain.CartItem;
 import com.sk.bookstore.domain.ShoppingCart;
 import com.sk.bookstore.domain.User;
+import com.sk.bookstore.resource.constant.CheckoutDatabaseFieldEnum;
 import com.sk.bookstore.resource.constant.MessageEnum;
 import com.sk.bookstore.resource.util.ResponseMessage;
 import com.sk.bookstore.resource.util.UserServiceHelper;
@@ -38,7 +39,7 @@ import com.sk.bookstore.service.ShoppingCartService;
 public class ShoppingCartResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCartResource.class);
-	
+
 	@Autowired
 	private UserServiceHelper userServiceHelper;
 
@@ -53,8 +54,8 @@ public class ShoppingCartResource {
 
 	@PostMapping
 	public ResponseEntity<ResponseMessage> addItem(@RequestBody HashMap<String, String> mapper, Principal principal) {
-		String bookIdStr = (String) mapper.get("bookId");
-		String qtyStr = (String) mapper.get("qty");
+		final String bookIdStr = (String) mapper.get(CheckoutDatabaseFieldEnum.BOOK_ID.fieldName());
+		final String qtyStr = (String) mapper.get(CheckoutDatabaseFieldEnum.QTY.fieldName());
 		User user = userServiceHelper.getUser(principal);
 		try {
 			long bookId = Long.parseLong(bookIdStr);
@@ -65,9 +66,10 @@ public class ShoppingCartResource {
 			}
 			cartItemService.addBookToCartItem(book, user, qty);
 		} catch (NumberFormatException nfe) {
-			LOGGER.error(
-					"Invalid Argument has been found for either Book Id: " + bookIdStr + " or for the Qty : " + qtyStr);
-			throw new NumberFormatException("Invalid Argument has been found while adding Item.");
+			final String errorDescription = "Invalid Argument has been found for either Book Id: " + bookIdStr
+					+ " or for the Qty : " + qtyStr;
+			LOGGER.error(errorDescription);
+			throw new NumberFormatException(errorDescription);
 		}
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.BOOK_ADDED_SUCCESS), HttpStatus.OK);
 	}
@@ -82,7 +84,8 @@ public class ShoppingCartResource {
 
 	@GetMapping
 	public ShoppingCart getShoppingCart(Principal principal) {
-		final ShoppingCart shoppingCart = shoppingCartService.updateShoppingCart(userServiceHelper.getUser(principal).getShoppingCart());
+		final ShoppingCart shoppingCart = shoppingCartService
+				.updateShoppingCart(userServiceHelper.getUser(principal).getShoppingCart());
 		return shoppingCart;
 	}
 
@@ -94,8 +97,8 @@ public class ShoppingCartResource {
 
 	@PutMapping
 	public ResponseEntity<ResponseMessage> updateCartItem(@RequestBody HashMap<String, String> mapper) {
-		String cartItemIdStr = mapper.get("cartItemId");
-		String qtyStr = mapper.get("qty");
+		final String cartItemIdStr = mapper.get(CheckoutDatabaseFieldEnum.CART_ITEM_ID.fieldName());
+		final String qtyStr = mapper.get(CheckoutDatabaseFieldEnum.QTY.fieldName());
 		CartItem cartItem = null;
 		try {
 			long cartItemId = Long.parseLong(cartItemIdStr);
@@ -104,9 +107,10 @@ public class ShoppingCartResource {
 			cartItem.setQty(qty);
 			cartItem = cartItemService.updateCartItem(cartItem);
 		} catch (NumberFormatException nfe) {
-			LOGGER.error("Invalid Argument has been found for either Cart item Id: " + cartItemIdStr
-					+ " or for the Qty : " + qtyStr);
-			throw new NumberFormatException("Invalid Argument has been found while updating cart Item.");
+			final String errorDescription = "Invalid Argument has been found for either Cart item Id: " + cartItemIdStr
+					+ " or for the Qty : " + qtyStr;
+			LOGGER.error(errorDescription);
+			throw new NumberFormatException(errorDescription);
 		}
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.UPDATE_SUCCESS), HttpStatus.OK);
 	}

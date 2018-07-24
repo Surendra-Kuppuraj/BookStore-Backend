@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ import com.sk.bookstore.domain.security.Role;
 import com.sk.bookstore.domain.security.UserRole;
 import com.sk.bookstore.mail.UserAccountEmailConstructor;
 import com.sk.bookstore.resource.constant.MessageEnum;
+import com.sk.bookstore.resource.constant.UserDatabaseFieldEnum;
 import com.sk.bookstore.resource.util.ResponseMessage;
 import com.sk.bookstore.service.UserService;
 
@@ -43,13 +45,11 @@ public class UserAccountResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserAccountResource.class);
 
-	private static final String USER_NAME = "userName";
-	private static final String EMAIL = "email";
-	private static final String ROLE_USER = "ROLE_USER";
-
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private Environment environment;
 
 	@Autowired
 	@Qualifier(value = "javaUserAccountEmailConstructor")
@@ -62,8 +62,11 @@ public class UserAccountResource {
 	@PostMapping("/new")
 	public ResponseEntity<ResponseMessage> createUser(HttpServletRequest request,
 			@Valid @RequestBody HashMap<String, String> mapper) throws Exception {
-		String userName = mapper.get(USER_NAME);
-		String userEmail = mapper.get(EMAIL);
+		String firstName = mapper.get(UserDatabaseFieldEnum.FIRST_NAME.fieldName());
+		String lastName = mapper.get(UserDatabaseFieldEnum.LAST_NAME.fieldName());
+		String userName = mapper.get(UserDatabaseFieldEnum.USER_NAME.fieldName());
+		String userEmail = mapper.get(UserDatabaseFieldEnum.EMAIL.fieldName());
+		
 		LOGGER.info("Started creating user account for user: " + userName + " with email-id: " + userEmail);
 
 		Optional<User> userByName = userService.findByUserName(userName);
@@ -80,13 +83,15 @@ public class UserAccountResource {
 		String password = SecurityUtility.randomPassword();
 
 		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
 		user.setUsername(userName);
 		user.setEmail(userEmail);
 		user.setPassword(generateEncryptedPassword(password));
 
 		Role role = new Role();
 		role.setRoleId(1);
-		role.setName(ROLE_USER);
+		role.setName(UserDatabaseFieldEnum.ROLE_USER.fieldName());
 
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, role));
@@ -95,17 +100,23 @@ public class UserAccountResource {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_FAILED), HttpStatus.BAD_REQUEST);
 		}
 		
-		//For Production environment
-		sendGridUserAccountEmailConstructor.sendNewUserRegistrationeEmail(createdUser, password);
-		//For test environment
-		//javaUserAccountEmailConstructor.createNewUserRegistrationeEmail(createdUser, password);
+		final String applicationMode = environment.getProperty("spring.profiles.active");
+		//For Development environment.
+		if("dev".equals(applicationMode)){
+			javaUserAccountEmailConstructor.sendNewUserRegistrationeEmail(createdUser, password);
+		}
+		
+		//For Production environment.
+		if("production".equals(applicationMode)){
+			sendGridUserAccountEmailConstructor.sendNewUserRegistrationeEmail(createdUser, password);
+		}
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.USER_CREATION_SUCCESS), HttpStatus.OK);
 	}
 
 	@PutMapping("/forgottenPassword")
 	public ResponseEntity<ResponseMessage> forgottenPassword(HttpServletRequest request,
 			@Valid @RequestBody HashMap<String, String> mapper) throws Exception {
-		String userEmail = mapper.get(EMAIL);
+		String userEmail = mapper.get(UserDatabaseFieldEnum.EMAIL.fieldName());
 		LOGGER.info("Recovering the password for the user by Email " + userEmail);
 
 		Optional<User> optionalUser = userService.findByEmail(userEmail);
@@ -121,8 +132,17 @@ public class UserAccountResource {
 		if (!savedUser.isPresent()) {
 			return new ResponseEntity<>(new ResponseMessage(MessageEnum.UPDATE_FAILED), HttpStatus.BAD_REQUEST);
 		}
-		sendGridUserAccountEmailConstructor.sendForgottenPasswordEmail(user, password);
-		//javaUserAccountEmailConstructor.createForgottenPasswordEmail(user, password);
+		final String applicationMode = environment.getProperty("spring.profiles.active");
+
+		//For Development environment.
+		if("dev".equals(applicationMode)){
+			javaUserAccountEmailConstructor.sendForgottenPasswordEmail(user, password);
+		}
+		
+		//For Production environment.
+		if("production".equals(applicationMode)){
+			sendGridUserAccountEmailConstructor.sendForgottenPasswordEmail(user, password);
+		}
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.EMAIL_SENT), HttpStatus.OK);
 	}
 

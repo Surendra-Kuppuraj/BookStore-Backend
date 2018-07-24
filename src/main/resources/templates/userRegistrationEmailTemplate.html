@@ -23,15 +23,31 @@
     </style>
 </head>
 <body>
-<p>Dear <span th:text="${username}"></span>,</p>
+<div>
+<hr style="width: 1331px; height: 16px; background-color: #2b1d0e;"> </hr>
+<div >
+	<div style="float: left; padding-left: 10px;">
+	   <img src="keys.png" th:src="|cid:${imageResourceName}|" style="width: 100px;  z-index: 1; margin-left: 50px;" />
+	</div>
+   <div style="float: right;">
+   		<h1>
+	   		<i style ="font-weight: bolder; font-size: 25px; padding-right: 444px;">SK International Group - Bookstore</i>
+    	</h1>
+   </div> 
+</div>
+<hr style="width: 1331px; height: 8px; background-color: #2b1d0e;"> </hr>
+</div>
+<div style="margin-top: 60px; margin-left: 25px;">
+<p>Dear <span th:text="${userName}"></span>,</p>
 <br/>
 <p>Thank you for registering in our SK Group - Bookstore. </p>
 <br/>
 <p>Please find below your login credentials to log in to our book store:</p>
-<p><strong>User Name: </strong><span th:text="${username}"></span> </p>
+<p><strong>User Name: </strong><span th:text="${userName}"></span> </p>
 <p><strong>Password: </strong><span th:text="${password}"></span> </p>
 <br/>
 <p>Best,</p>
 <p>SK Group - Bookstore</p>
+</div>
 </body>
 </html>

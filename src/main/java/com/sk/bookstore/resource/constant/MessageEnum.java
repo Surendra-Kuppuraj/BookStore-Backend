@@ -21,7 +21,7 @@ public enum MessageEnum {
 	INCORRECT_PASSWORD("Incorrect Current Password"), USER_CREATION_SUCCESS("User created Successfully!"),
 	USER_CREATION_FAILED("User creation Failed!"), USER_NOT_FOUND("User not found!"),
 	NOT_ENOUGH_STOCK("Not Enough Stock!"),BOOK_ADDED_SUCCESS("Book Added Successfully!"),
-	BOOK_ADDED_FAILED("Book Adding to the cart failed!");;
+	BOOK_ADDED_FAILED("Book Adding to the cart failed!");
 	
 	private final String message;
 

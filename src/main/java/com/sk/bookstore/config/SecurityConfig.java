@@ -25,10 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserSecurityService userSecurityService;
 	
-	private BCryptPasswordEncoder passwordEncoder() {
-		return SecurityUtility.passwordEncoder();
-	}
-
 	private static final String[] PUBLIC_MATCHERS = {
 			"/css/**",
 			"/js/**",
@@ -54,5 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public HttpSessionStrategy httpSessionStrategy() {
 		return new HeaderHttpSessionStrategy();
 	}
+	
+	private BCryptPasswordEncoder passwordEncoder() {
+		return SecurityUtility.passwordEncoder();
+	}
 }
-

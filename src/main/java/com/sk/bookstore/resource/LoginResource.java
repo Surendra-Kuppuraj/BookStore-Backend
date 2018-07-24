@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sk.bookstore.resource.constant.MessageEnum;
@@ -23,7 +23,7 @@ public class LoginResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginResource.class);
 
-	@RequestMapping("/token")
+	@GetMapping("/token")
 	public Map<String, String> token(final HttpSession session, final HttpServletRequest request) {
 		LOGGER.info("Requested Remote Host: " + request.getRemoteHost());
 		LOGGER.info("Requested Remote Host Port: " + request.getRemotePort());
@@ -31,7 +31,7 @@ public class LoginResource {
 		return Collections.singletonMap("token", session.getId());
 	}
 
-	@RequestMapping("/isSessionExists")
+	@GetMapping("/isSessionExists")
 	public ResponseEntity<ResponseMessage> isSessionExists() {
 		return new ResponseEntity<>(new ResponseMessage(MessageEnum.SESSION_ACTIVATE), HttpStatus.OK);
 	}

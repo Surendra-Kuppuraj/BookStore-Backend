@@ -3,41 +3,37 @@
  */
 package com.sk.bookstore.mail;
 
-import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.sk.bookstore.domain.User;
-import com.sk.bookstore.mail.impl.JavaEmailServer;
-import com.sk.bookstore.mail.impl.SendGridEmailServer;
+import com.sk.bookstore.resource.constant.UserDatabaseFieldEnum;
 
 /**
  * @author Surendra Kumar
  *
  */
-public interface UserAccountEmailConstructor {
-
-	@PostConstruct
-	default TemplateEngine getTemplateEngine() {
-		return new TemplateEngine();
-	}
+public abstract class UserAccountEmailConstructor {
 	
-	default <T> void setContextAndEmail(final User user, final String password,
-			final String templateFileName, final String subject, T t) {
+	@Autowired
+	private TemplateEngine templateEngine;
+	
+	@Autowired
+	ServletContext servletContext;
+	
+	public abstract void sendNewUserRegistrationeEmail(final User user, final String password);
+
+	public abstract void sendForgottenPasswordEmail(final User user, final String password);
+
+	protected String setContext(final User user, final String password, final String imageResourceName, final String templateFileName) {
 		Context context = new Context();
-		context.setVariable("username", user.getUsername());
-		context.setVariable("password", password);
-		final String emailText = getTemplateEngine().process(templateFileName, context);
-		if(t instanceof JavaEmailServer) {
-			((JavaEmailServer)t).sendEmail(user.getEmail(), subject, emailText);
-		}
-		if(t instanceof SendGridEmailServer) {
-			((SendGridEmailServer)t).sendEmail(user.getEmail(), subject, emailText);
-		}
-	}
-	
-	public void sendNewUserRegistrationeEmail(final User user, final String password);
+		context.setVariable(UserDatabaseFieldEnum.USER_NAME.fieldName(), user.getUsername());
+		context.setVariable(UserDatabaseFieldEnum.PASSWORD.fieldName(), password);
+		context.setVariable("imageResourceName", imageResourceName); // so that we can reference it from HTML
 
-	public void sendForgottenPasswordEmail(final User user, final String password);
+		return templateEngine.process(templateFileName, context);
+	}	
 }

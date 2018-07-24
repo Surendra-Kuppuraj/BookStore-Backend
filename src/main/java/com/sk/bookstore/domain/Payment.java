@@ -5,6 +5,7 @@ package com.sk.bookstore.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +32,9 @@ public class Payment implements Serializable {
 	private int cvc;
 	private String holderName;
 	private boolean defaultPayment;
+	
+	@Embedded
+	private Address address = new Address();
 
 	@OneToOne
 	@JsonIgnore
@@ -106,5 +110,13 @@ public class Payment implements Serializable {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 }
