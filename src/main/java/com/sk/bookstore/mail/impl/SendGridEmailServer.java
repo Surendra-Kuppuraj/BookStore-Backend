@@ -43,7 +43,7 @@ public class SendGridEmailServer implements EmailServer {
 		 Attachments attachment = new Attachments();
 		 attachment.setContent("logo");
 		 attachment.setType("image/png");
-		 attachment.setFilename("/static/image/sklogos/keys.png");
+		 attachment.setFilename("keys.png");
 		 attachment.setDisposition("inline");
 		 attachment.setContentId("imageResourceName");
 		 mail.addAttachments(attachment);
