@@ -48,7 +48,7 @@ public class SendGridEmailServer implements EmailServer {
 	    String base64_encoded_data = null;
 
 		try {
-		br = new BufferedReader(new FileReader("logo.txt"));
+		br = new BufferedReader(new FileReader("/bookstore-angular/src/main/java/com/sk/bookstore/mail/impl/logo.txt"));
 	   
 	        StringBuilder sb = new StringBuilder();
 	        String line = br.readLine();
