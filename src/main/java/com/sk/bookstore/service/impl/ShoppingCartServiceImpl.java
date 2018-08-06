@@ -31,7 +31,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	private BigDecimal cartTotal = null;
 
 	public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart) {
-		this.cartTotal = new BigDecimal(0);
 		Stream<CartItem> cartItemStream = cartItemService.findByShoppingCart(shoppingCart).stream();
 		cartItemStream.filter((cartItem) -> cartItem.getBook().getInStockNumber() > 0).forEach((cartItem) -> {
 			cartItemService.updateCartItem(cartItem);
