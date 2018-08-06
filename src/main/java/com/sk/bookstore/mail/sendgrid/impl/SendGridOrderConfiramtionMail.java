@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sk.bookstore.mail.impl;
+package com.sk.bookstore.mail.sendgrid.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+.header-box {
+	height: 16px;
+	background-color: #594a41;
+	width: 100%;
+}
+
+table tr th .header-box {
+	height: 16px;
+	background-color: #594a41;
+	width: 100%;
+}
+
+.logo {
+	width: 100%;
+	max-width: 400px;
+	z-index: 1;
+}
+</style>
+</head>
+<body>
+	<div th:fragment="header(imageResourceName)">
+		<table class="header-box">
+			<tr>
+				<th>
+					<div class="header-box"></div>
+				</th>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th><img src="keys.png" th:src="|cid:${imageResourceName}|"
+					class="logo" /></th>
+			</tr>
+		</table>
+		<table class="header-box">
+			<tr>
+				<th>
+					<div class="header-box"></div>
+				</th>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

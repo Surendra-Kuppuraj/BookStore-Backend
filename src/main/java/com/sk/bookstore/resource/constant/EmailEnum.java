@@ -11,8 +11,8 @@ public enum EmailEnum {
 	
 	ORDER_SUBJECT("SK International Group - Bookstore Order Confirmation"),
     FORGOTTEN_PASSWORD_SUBJECT("SK International Group - Bookstore Renewed Password"),
-	USER_REGISTRATION_SUBJECT("SK International Group - Bookstore User Registration");
-	
+	USER_REGISTRATION_SUBJECT("SK International Group - Bookstore User Registration"),
+	NEWS_LETTER_SUBSCRIPTION("SK International Group - Bookstore Newsletter Subscription");
 	private final String emailSubject;
 	
 	private EmailEnum(String emailSubject) {

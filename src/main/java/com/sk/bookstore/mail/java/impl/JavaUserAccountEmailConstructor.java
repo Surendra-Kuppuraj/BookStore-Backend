@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sk.bookstore.mail.impl;
+package com.sk.bookstore.mail.java.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,13 +26,13 @@ public class JavaUserAccountEmailConstructor extends UserAccountEmailConstructor
 
 	@Override
 	public void sendNewUserRegistrationeEmail(final User user, final String password) {
-		final String emailText = this.setContext(user, password, "logo", TemplateFileNameEnum.USER_REGISTRATION_EMIAL_TEMPLATE.fileName());
+		final String emailText = this.setContext(user, password, TemplateFileNameEnum.USER_REGISTRATION_EMIAL_TEMPLATE.fileName());
 		javaEmailServer.sendEmail(user.getEmail(), EmailEnum.USER_REGISTRATION_SUBJECT.emailSubject(), emailText);
 	}
 
 	@Override
 	public void sendForgottenPasswordEmail(final User user, final String password) {
-		final String emailText = this.setContext(user, password, "logo",TemplateFileNameEnum.FORGOTTEN_PASSWORD_REQUEST_EMAIL_TEMPLATE.fileName());
+		final String emailText = this.setContext(user, password, TemplateFileNameEnum.FORGOTTEN_PASSWORD_REQUEST_EMAIL_TEMPLATE.fileName());
 		javaEmailServer.sendEmail(user.getEmail(), EmailEnum.FORGOTTEN_PASSWORD_SUBJECT.emailSubject(), emailText);
 	}
 }

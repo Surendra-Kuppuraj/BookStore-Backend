@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+.footer, .footer-box, .footer-table {
+	width: 100%;
+	background-color: #2b1d0e;
+	color: white;
+}
+
+.contact {
+	margin-left: 6%;
+	margin-right: 9%
+}
+
+#copyright {
+	padding-top: 3%;
+}
+
+#copyright a, address i a {
+	color: white;
+	text-decoration: none !important;
+}
+</style>
+</head>
+<body>
+	<div class="footer-box" th:fragment="footer">
+		<table class="footer-table contact">
+			<tr>
+				<th>
+					<div class="address">
+						<address>
+							<h3 style="color: antiquewhite;">SK International Group - Bookstore</h3>
+							<i>No.8 SK street, </i> <i>SK Embassy Headquarters, </i>  <i>Tel:<a
+								href="tel:+987 (0)529 986 31">+987 (0)529 986 31</a> </i>  <i>Email:<a
+								href="mailto:sk.groups.info@gmail.com">
+									sk.groups.info@gmail.com</a></i>
+						</address>
+					</div>
+				</th>
+			</tr>
+			<br/>
+			<tr>
+				<th>
+					<div class="opening-hours">
+						<h3 style="color: antiquewhite;">Opening Hours</h3>
+						<i>Mon-Fri: 9 AM. to 6 PM. </i> <i>Sat: 10 AM. to 7 PM. </i>
+						 <i>Sun: Holiday. </i> 
+					</div>
+				</th>
+			</tr>
+		</table>
+		<br />
+		<table class="footer-table">
+			<tr>
+				<th>
+					<div id="copyright">
+						&copy; 2018 Copyright: <a href="https://www.maya-lava-java.net/">
+							SK International Group - Bookstore </a>
+					</div>
+				</th>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

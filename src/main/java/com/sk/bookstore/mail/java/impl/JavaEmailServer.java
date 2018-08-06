@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sk.bookstore.mail.impl;
+package com.sk.bookstore.mail.java.impl;
 
 import javax.mail.internet.InternetAddress;
 
@@ -45,7 +45,7 @@ public class JavaEmailServer implements EmailServer {
 			});
 			LOGGER.info("Email {} has been send successfully to the user ", emailTo);
 		} catch (MailException ex) {
-			LOGGER.error("Spring Java Email Server cannot be connected at the moment due to the following reason ", ex);
+			LOGGER.error("Spring Java Email Server cannot be able to process the current request to send the email.", ex);
 			throw new EmailConstructorException(ex);
 		}
 	}

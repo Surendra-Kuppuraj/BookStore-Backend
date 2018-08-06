@@ -43,27 +43,27 @@ table .footer-table tr th address h3 {
 	color: white;
 	text-decoration: none !important;
 }
+}
 </style>
 </head>
 <body>
 	<div th:replace="fragments/header :: header(${imageResourceName})"></div>
-	<p>
-		Dear <span th:text="${username}"></span>,
-	</p>
-	<br />
-	<p>We have noticed that you have requested new password.</p>
-	<br />
-	<p>Please find below your login credentials with renewed password:</p>
-	<p>
-		<strong>User Name: </strong><span th:text="${username}"></span>
-	</p>
-	<p>
-		<strong>New Password: </strong><span th:text="${password}"></span>
-	</p>
-	<br />
-	<p>Best regards,</p>
-	<p>Surendra Kumar. K</p>
-	<p>CEO - SK International Group</p>
+	<div style="margin-top: 60px; margin-left: 20px;">
+		<h1 style="text-align: center;">We're ready to go</h1>
+		<p>Your curiosity drove you to join us and we're glad you did.
+			From now on , you'll be the first we share our latest finds with.</p>	
+		<p>Keep an eye on your inbox to see what's next.</p>	
+		<p>
+			Enjoy <strong> 10% off</strong> your <strong>next order*</strong>
+		</p>
+		<p>Use code: ADT972DK31DNCBY</p>
+	</div>
+	<div style="">
+		<i>* Promotion code valid for use within the next 7 days. It may
+			be invalid at anytime within these 7 days due to high demand in the
+			bookshop.</i>
+	</div>
+	<br/>
 	<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

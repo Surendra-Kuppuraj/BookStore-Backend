@@ -23,7 +23,7 @@ public class ApplicationResponseEntityExceptionalHandler extends ResponseEntityE
 
 	@ExceptionHandler(DataBaseException.class)
 	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-		final String bodyOfResponse = "Our Backend application server has been down for a moment. Our Development team is on the way.";
+		final String bodyOfResponse = "The error has been encountered in either database server or SQL queries during the request processing.";
 		LOGGER.error("Database problem has been occured: " + ex.getMessage());
 		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}

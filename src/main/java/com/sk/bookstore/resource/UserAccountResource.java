@@ -56,7 +56,7 @@ public class UserAccountResource {
 	private UserAccountEmailConstructor javaUserAccountEmailConstructor;
 
 	@Autowired
-	@Qualifier(value = "sendGridUserAccountConstructor")
+	@Qualifier(value = "sendGridUserAccountEmailConstructor")
 	private UserAccountEmailConstructor sendGridUserAccountEmailConstructor;
 
 	@PostMapping("/new")

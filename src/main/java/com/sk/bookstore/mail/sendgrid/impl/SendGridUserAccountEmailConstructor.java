@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.sk.bookstore.mail.impl;
+package com.sk.bookstore.mail.sendgrid.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +18,7 @@ import com.sk.bookstore.resource.constant.TemplateFileNameEnum;
  *
  */
 @Component
-public class SendGridUserAccountConstructor extends UserAccountEmailConstructor {
+public class SendGridUserAccountEmailConstructor extends UserAccountEmailConstructor {
 	
 	@Autowired
 	@Qualifier("sendGridEmailServer")
@@ -26,13 +26,13 @@ public class SendGridUserAccountConstructor extends UserAccountEmailConstructor 
 	
 	@Override
 	public void sendNewUserRegistrationeEmail(User user, String password) {
-		final String emailText = this.setContext(user, password, "logo",TemplateFileNameEnum.USER_REGISTRATION_EMIAL_TEMPLATE.fileName());
+		final String emailText = this.setContext(user, password, TemplateFileNameEnum.USER_REGISTRATION_EMIAL_TEMPLATE.fileName());
 		sendGridEmailServer.sendEmail(user.getEmail(), EmailEnum.USER_REGISTRATION_SUBJECT.emailSubject(), emailText);
 	}
 
 	@Override
 	public void sendForgottenPasswordEmail(User user, String password) {
-		final String emailText = this.setContext(user, password, "logo",TemplateFileNameEnum.FORGOTTEN_PASSWORD_REQUEST_EMAIL_TEMPLATE.fileName());
+		final String emailText = this.setContext(user, password, TemplateFileNameEnum.FORGOTTEN_PASSWORD_REQUEST_EMAIL_TEMPLATE.fileName());
 		sendGridEmailServer.sendEmail(user.getEmail(), EmailEnum.FORGOTTEN_PASSWORD_SUBJECT.emailSubject(), emailText);
 	}
 }

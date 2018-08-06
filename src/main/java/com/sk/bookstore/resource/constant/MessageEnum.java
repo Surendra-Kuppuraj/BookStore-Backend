@@ -21,8 +21,9 @@ public enum MessageEnum {
 	INCORRECT_PASSWORD("Incorrect Current Password"), USER_CREATION_SUCCESS("User created Successfully!"),
 	USER_CREATION_FAILED("User creation Failed!"), USER_NOT_FOUND("User not found!"),
 	NOT_ENOUGH_STOCK("Not Enough Stock!"),BOOK_ADDED_SUCCESS("Book Added Successfully!"),
-	BOOK_ADDED_FAILED("Book Adding to the cart failed!");
-	
+	BOOK_ADDED_FAILED("Book Adding to the cart failed!"),NEWSLETTER_SUBSCRIBED("News Letter Subscription had done successfully"),
+	NEWSLETTER_UNSUBSCRIBED("News Letter has been unsubscribed.");
+
 	private final String message;
 
 	private MessageEnum(String message) {
@@ -32,8 +33,9 @@ public enum MessageEnum {
 	public String getMessage() {
 		return message;
 	}
-	@Override 
-    public String toString(){ 
-        return this.message; 
+
+	@Override
+	public String toString() {
+		return this.message;
 	}
 }

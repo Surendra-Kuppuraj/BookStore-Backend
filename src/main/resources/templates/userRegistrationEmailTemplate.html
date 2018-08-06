@@ -1,53 +1,71 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="/css/non-responsive.css" rel="stylesheet"/>
+<style type="text/css">
+.header-box {
+	height: 16px;
+	background-color: #594a41;
+	width: 100%;
+}
 
-    <!-- Bootstrap Dropdown Hover CSS -->
-    <link href="/css/animate.min.css" rel="stylesheet"/>
-    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet"/>
+table tr th .header-box {
+	height: 16px;
+	background-color: #594a41;
+	width: 100%;
+}
 
-    <link href="/css/font-awesome.min.css" rel="stylesheet"/>
+.logo {
+	width: 100%;
+	max-width: 400px;
+	z-index: 1;
+}
 
-    <link href="/css/style.css" rel="stylesheet"/>
+.footer, .footer-box, .footer-table {
+	width: 100%;
+	background-color: #2b1d0e;
+	color: white;
+}
 
-    <style>
-        table {
-            border-collapse: collapse;
-        }
+.contact {
+	margin-left: 6%;
+	margin-right: 9%
+}
 
-        table, th, td {
-            border: 1px solid black;
-        }
-    </style>
+table .footer-table tr th address h3 {
+	color: antiquewhite;
+}
+
+#copyright {
+	padding-top: 3%;
+}
+
+#copyright a, address i a {
+	color: white;
+	text-decoration: none !important;
+}
+}
+</style>
 </head>
 <body>
-<div>
-<hr style="width: 1331px; height: 16px; background-color: #2b1d0e;"> </hr>
-<div >
-	<div style="float: left; padding-left: 10px;">
-	   <img src="keys.png" th:src="|cid:imageResourceName|" style="width: 100px;  z-index: 1; margin-left: 50px;" />
+	<div th:replace="fragments/header :: header(${imageResourceName})"></div>
+	<div style="margin-top: 60px; margin-left: 20px;">
+		<p>
+			Dear <span th:text="${userName}"></span>,
+		</p>
+		<p>Thank you for registering in our SK International Group - Bookstore.</p>
+		<br />
+		<p>Please find below your login credentials to log in to our book
+			store:</p>
+		<p>
+			<strong>User Name: </strong><span th:text="${userName}"></span>
+		</p>
+		<p>
+			<strong>Password: </strong><span th:text="${password}"></span>
+		</p>
+		<p>Best regards,</p>
+		<p>Surendra Kumar. K</p>
+		<p>CEO - SK International Group</p>
 	</div>
-   <div style="float: right;">
-   		<h1>
-	   		<i style ="font-weight: bolder; font-size: 25px; padding-right: 444px;">SK International Group - Bookstore</i>
-    	</h1>
-   </div> 
-</div>
-<hr style="width: 1331px; height: 8px; background-color: #2b1d0e;"> </hr>
-</div>
-<div style="margin-top: 60px; margin-left: 25px;">
-<p>Dear <span th:text="${userName}"></span>  <span th:text="${imageResourceName}"></span>,</p>
-<br/>
-<p>Thank you for registering in our SK Group - Bookstore. </p>
-<br/>
-<p>Please find below your login credentials to log in to our book store:</p>
-<p><strong>User Name: </strong><span th:text="${userName}"></span> </p>
-<p><strong>Password: </strong><span th:text="${password}"></span> </p>
-<br/>
-<p>Best,</p>
-<p>SK Group - Bookstore</p>
-</div>
+	<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
