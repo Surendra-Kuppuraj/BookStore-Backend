@@ -11,6 +11,6 @@ import com.sk.bookstore.domain.NewsLetter;
  */
 public interface NewsLetterEmailSubscription {
 
-	void sendNewsLetterEmailSubscription(final NewsLetter newsLetter);
+	void sendNewsLetterEmailSubscription(NewsLetter newsLetter);
 
 }
