@@ -39,19 +39,19 @@ public class BookstoreAngularApplication implements CommandLineRunner {
 
 		 userService.createUser(user1, userRoles);
 	
-     	 userRoles.clear();
-	
-		User user2 = new User();
-		user2.setFirstName("Admin");
-		user2.setLastName("Admin");
-		user2.setUsername("admin");
-		user2.setPassword(SecurityUtility.passwordEncoder().encode("sk"));
-		user2.setEmail("surendra.kumar.kuppuraj@gmail.com");
-		Role role2 = new Role();
-		role2.setRoleId(0);
-		role2.setName("ROLE_ADMIN");
-		userRoles.add(new UserRole(user2, role2));
-
-		userService.createUser(user2, userRoles);
+//     	 userRoles.clear();
+//	
+//		User user2 = new User();
+//		user2.setFirstName("Admin");
+//		user2.setLastName("Admin");
+//		user2.setUsername("admin");
+//		user2.setPassword(SecurityUtility.passwordEncoder().encode("sk"));
+//		user2.setEmail("surendra.kumar.kuppuraj@gmail.com");
+//		Role role2 = new Role();
+//		role2.setRoleId(0);
+//		role2.setName("ROLE_ADMIN");
+//		userRoles.add(new UserRole(user2, role2));
+//
+//		userService.createUser(user2, userRoles);
 	}
 }
