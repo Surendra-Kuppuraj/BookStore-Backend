@@ -82,7 +82,7 @@ public class ShoppingCartResource {
 		return cartItemList;
 	}
 
-	@GetMapping
+	@GetMapping("/shoppingCart")
 	public ShoppingCart getShoppingCart(Principal principal) {
 		final ShoppingCart shoppingCart = shoppingCartService
 				.updateShoppingCart(userServiceHelper.getUser(principal).getShoppingCart());

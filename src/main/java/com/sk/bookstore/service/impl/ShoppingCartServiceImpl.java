@@ -4,6 +4,7 @@
 package com.sk.bookstore.service.impl;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,31 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	private BigDecimal cartTotal = null;
 
 	public ShoppingCart updateShoppingCart(ShoppingCart shoppingCart) {
-		Stream<CartItem> cartItemStream = cartItemService.findByShoppingCart(shoppingCart).stream();
-		cartItemStream.filter((cartItem) -> cartItem.getBook().getInStockNumber() > 0).forEach((cartItem) -> {
-			cartItemService.updateCartItem(cartItem);
-			cartTotal = cartTotal.add(cartItem.getSubtotal());
-		});
+	BigDecimal cartTotal = new BigDecimal(0);
+		
+		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+		
+		for (CartItem cartItem : cartItemList) {
+			if(cartItem.getBook().getInStockNumber()>0) {
+				cartItemService.updateCartItem(cartItem);
+				cartTotal = cartTotal.add(cartItem.getSubtotal());
+			}
+		}
+		
 		shoppingCart.setGrandTotal(cartTotal);
+		
 		shoppingCartRepository.save(shoppingCart);
+		
 		return shoppingCart;
+
+//		Stream<CartItem> cartItemStream = cartItemService.findByShoppingCart(shoppingCart).stream();
+//		cartItemStream.filter((cartItem) -> cartItem.getBook().getInStockNumber() > 0).forEach((cartItem) -> {
+//			cartItemService.updateCartItem(cartItem);
+//			cartTotal = cartTotal.add(cartItem.getSubtotal());
+//		});
+//		shoppingCart.setGrandTotal(cartTotal);
+//		shoppingCartRepository.save(shoppingCart);
+//		return shoppingCart;
 	}
 
 	public void clearShoppingCart(ShoppingCart shoppingCart) {

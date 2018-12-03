@@ -18,5 +18,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/image/sklogos/**").addResourceLocations("classpath:/static/image/sklogos/");
+		registry.addResourceHandler("/image/book/**").addResourceLocations("classpath:/static/image/book/");
 	}
+	
 }

@@ -33,7 +33,7 @@ public class RequestFilter implements Filter {
 		if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
 			try {
 				 response.setHeader("Connection", "Keep-Alive");
-				 response.setHeader("Keep-Alive", "timeout=600");
+				 response.setHeader("Keep-Alive", "timeout=1000");
 				chain.doFilter(req, res);
 			} catch (Exception ex) {
 				LOGGER.error("Pre-proccessing response header could not be countinued in the filter chain " + ex);
