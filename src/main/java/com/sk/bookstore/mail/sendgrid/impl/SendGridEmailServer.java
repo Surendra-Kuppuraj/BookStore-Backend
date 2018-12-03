@@ -79,7 +79,7 @@ public class SendGridEmailServer implements EmailServer {
 		final StringBuffer strBuffer = new StringBuffer();
 		File file;
 		try {
-			file = ResourceUtils.getFile("classpath:"+fileName);
+			file = ResourceUtils.getFile("classpath:/"+fileName);
 		} catch (FileNotFoundException ex) {
 			throw new EmailConstructorException(ex);
 		}
