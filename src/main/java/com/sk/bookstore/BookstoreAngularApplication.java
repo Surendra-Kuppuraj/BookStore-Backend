@@ -39,7 +39,7 @@ public class BookstoreAngularApplication implements CommandLineRunner {
 
 		 userService.createUser(user1, userRoles);
 	
-//		 userRoles.clear();
+     	 userRoles.clear();
 	
 		User user2 = new User();
 		user2.setFirstName("Admin");
