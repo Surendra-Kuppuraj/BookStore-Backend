@@ -4,6 +4,7 @@
 package com.sk.bookstore.mail.sendgrid.impl;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.stream.Stream;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import com.sendgrid.Attachments;
 import com.sendgrid.Content;
@@ -75,8 +77,13 @@ public class SendGridEmailServer implements EmailServer {
 
 	private String readFile(final String fileName) {
 		final StringBuffer strBuffer = new StringBuffer();
-		final ClassLoader classLoader = getClass().getClassLoader();
-		final File file = new File(classLoader.getResource(fileName).getFile());
+		File file;
+		try {
+			file = ResourceUtils.getFile("classpath:"+fileName);
+		} catch (FileNotFoundException ex) {
+			throw new EmailConstructorException(ex);
+		}
+		//final File file = new File(getClass().getResource(fileName).getFile());
 		try (Stream<String> stream = Files.lines(file.toPath())) {
 			stream.forEach(line -> strBuffer.append(line));
 		} catch (IOException ex) {
