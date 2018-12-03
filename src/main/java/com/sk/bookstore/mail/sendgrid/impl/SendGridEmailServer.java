@@ -46,7 +46,7 @@ public class SendGridEmailServer implements EmailServer {
 				setEmailObject(emailTo), content);
 		// Attaching logo image.
 		Attachments keysLogoAttachment = new Attachments();
-		keysLogoAttachment.setContent(this.readFile("files/logo.txt"));
+		//keysLogoAttachment.setContent(this.readFile("files/logo.txt"));
 		keysLogoAttachment.setType("image/png");
 		keysLogoAttachment.setFilename("keys.png");
 		keysLogoAttachment.setDisposition("inline");
@@ -77,12 +77,14 @@ public class SendGridEmailServer implements EmailServer {
 
 	private String readFile(final String fileName) {
 		final StringBuffer strBuffer = new StringBuffer();
-		File file;
-		try {
-			file = ResourceUtils.getFile("classpath:/"+fileName);
-		} catch (FileNotFoundException ex) {
-			throw new EmailConstructorException(ex);
-		}
+		final File file = new File(getClass().getResource(fileName).getFile());
+
+//		File file;
+//		try {
+//			file = ResourceUtils.getFile("classpath:/"+fileName);
+//		} catch (FileNotFoundException ex) {
+//			throw new EmailConstructorException(ex);
+//		}
 		//final File file = new File(getClass().getResource(fileName).getFile());
 		try (Stream<String> stream = Files.lines(file.toPath())) {
 			stream.forEach(line -> strBuffer.append(line));
