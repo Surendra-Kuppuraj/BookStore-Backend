@@ -4,7 +4,6 @@
 package com.sk.bookstore.mail.sendgrid.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import com.sendgrid.Attachments;
 import com.sendgrid.Content;
@@ -41,8 +39,9 @@ public class SendGridEmailServer implements EmailServer {
 
 	@Override
 	public void sendEmail(final String emailTo, final String subject, final String emailText) {
-		
-		LOGGER.info("Starting to send email using Send Grid with emailTO: "+emailTo +" subject: "+ subject+" emailText "+emailText);
+
+		LOGGER.info("Starting to send email using Send Grid with emailTO: " + emailTo + " subject: " + subject
+				+ " emailText " + emailText);
 
 		// Setting up email content.
 		final Content content = new Content("text/html", emailText);
@@ -78,16 +77,9 @@ public class SendGridEmailServer implements EmailServer {
 	}
 
 	private String readFile(final String fileName) {
-		LOGGER.info("FileName... "+ fileName);
-		File file;
-		try {
-			file = ResourceUtils.getFile("classpath:"+fileName);
-		} catch (FileNotFoundException ex) {
-			throw new EmailConstructorException(ex);
-		}
-				 	
-		
-		LOGGER.info("Created FileName "+file);
+		LOGGER.info("FileName... " + fileName);
+		File file = new File(fileName);
+		LOGGER.info("Created FileName " + file);
 
 		String content;
 		try {
