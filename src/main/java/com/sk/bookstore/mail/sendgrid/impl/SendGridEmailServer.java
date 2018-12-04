@@ -51,7 +51,7 @@ public class SendGridEmailServer implements EmailServer {
 		mail.addAttachments(keysLogoAttachment);
 
 		// Sending email using Email Server.
-		SendGrid sg = new SendGrid(environment.getProperty("sendGrid.api.key"));
+		SendGrid sg = new SendGrid("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");
 		Request request = new Request();
 		try {
 			request.setMethod(Method.POST);
