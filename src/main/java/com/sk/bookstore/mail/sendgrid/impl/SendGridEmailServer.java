@@ -82,7 +82,7 @@ public class SendGridEmailServer implements EmailServer {
 	private String readFile(final String fileName) {
 		LOGGER.info("FileName... " + fileName);
 		String content;
-		File file = new File(environment.getProperty("static.resource.location"));
+		File file = new File("logo.txt");
 //		ClassLoader cl = this.getClass().getClassLoader();
 //		InputStream inputStream = cl.getResourceAsStream(environment.getProperty("static.resource.location"));	    
 		try {
