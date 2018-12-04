@@ -30,7 +30,7 @@ import com.sk.bookstore.mail.EmailServer;
  */
 @Component
 public class SendGridEmailServer implements EmailServer {
-	private static final String FILES_LOGO_TXT = "/files/logo.txt";
+	private static final String FILES_LOGO_TXT = "files/logo.txt";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendGridEmailServer.class);
 
@@ -78,7 +78,8 @@ public class SendGridEmailServer implements EmailServer {
 
 	private String readFile(final String fileName) {
 		LOGGER.info("FileName... " + fileName);
-		File file = new File(fileName);
+		ClassLoader classLoader = new SendGridEmailServer().getClass().getClassLoader();   
+	    File file = new File(classLoader.getResource(fileName).getFile());
 		LOGGER.info("Created FileName " + file);
 
 		String content;
