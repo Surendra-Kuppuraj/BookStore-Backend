@@ -30,6 +30,8 @@ import com.sk.bookstore.mail.EmailServer;
  */
 @Component
 public class SendGridEmailServer implements EmailServer {
+	private static final String FILES_LOGO_TXT = "files/logo.txt";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendGridEmailServer.class);
 
 	@Autowired
@@ -46,7 +48,7 @@ public class SendGridEmailServer implements EmailServer {
 				setEmailObject(emailTo), content);
 		// Attaching logo image.
 		Attachments keysLogoAttachment = new Attachments();
-		keysLogoAttachment.setContent(this.readFile("files/logo.txt"));
+		keysLogoAttachment.setContent(this.readFile(FILES_LOGO_TXT));
 		keysLogoAttachment.setType("image/png");
 		keysLogoAttachment.setFilename("keys.png");
 		keysLogoAttachment.setDisposition("inline");
@@ -77,6 +79,8 @@ public class SendGridEmailServer implements EmailServer {
 		LOGGER.info("FileName", fileName);
 		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
+		LOGGER.info("FileName", file);
+
 		String content;
 		try {
 			content = new String(Files.readAllBytes(file.toPath()));
