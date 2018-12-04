@@ -76,10 +76,10 @@ public class SendGridEmailServer implements EmailServer {
 	}
 
 	private String readFile(final String fileName) {
-		LOGGER.info("FileName", fileName);
+		LOGGER.info("FileName... "+ fileName);
 		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
-		LOGGER.info("FileName", file);
+		LOGGER.info("Created FileName "+file);
 
 		String content;
 		try {
@@ -87,7 +87,7 @@ public class SendGridEmailServer implements EmailServer {
 		} catch (IOException ex) {
 			throw new EmailConstructorException(ex);
 		}
-		LOGGER.info("Read File Name content", content);
+		LOGGER.info("Read File Name content" + content);
 
 		return content;
 	}
