@@ -82,11 +82,10 @@ public class SendGridEmailServer implements EmailServer {
 	private String readFile(final String fileName) {
 		LOGGER.info("FileName... " + fileName);
 		String content;
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-		InputStream inputStream = classLoader.getResourceAsStream(fileName);	    
+		ClassLoader classLoader = new SendGridEmailServer().getClass().getClassLoader();
+		InputStream inputStream = classLoader.getResourceAsStream(environment.getProperty("static.resource.location"));	    
 		try {
 			LOGGER.info("inputStream... " + inputStream);
-
 			Path tempFile = Files.createTempDirectory("").resolve(UUID.randomUUID().toString() + ".tmp");
 		    Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
 			LOGGER.info("tempfile... " + tempFile);
