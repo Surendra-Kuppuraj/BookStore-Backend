@@ -37,6 +37,9 @@ public class SendGridEmailServer implements EmailServer {
 
 	@Override
 	public void sendEmail(final String emailTo, final String subject, final String emailText) {
+		
+		LOGGER.info("Starting to send email using Send Grid with emailTO: "+emailTo +" subject: "+ subject+" emailText "+emailText);
+
 		// Setting up email content.
 		final Content content = new Content("text/html", emailText);
 		final Mail mail = new Mail(setEmailObject(environment.getProperty("bookstore.support.email")), subject,
@@ -71,6 +74,7 @@ public class SendGridEmailServer implements EmailServer {
 	}
 
 	private String readFile(final String fileName) {
+		LOGGER.info("FileName", fileName);
 		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
 		String content;
@@ -79,6 +83,8 @@ public class SendGridEmailServer implements EmailServer {
 		} catch (IOException ex) {
 			throw new EmailConstructorException(ex);
 		}
+		LOGGER.info("Read File Name content", content);
+
 		return content;
 	}
 }
