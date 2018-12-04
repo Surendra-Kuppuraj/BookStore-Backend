@@ -60,7 +60,7 @@ public class SendGridEmailServer implements EmailServer {
 		mail.addAttachments(keysLogoAttachment);
 
 		// Sending email using Email Server.
-		SendGrid sg = new SendGrid("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");
+		SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
 		Request request = new Request();
 		try {
 			request.setMethod(Method.POST);
@@ -80,17 +80,12 @@ public class SendGridEmailServer implements EmailServer {
 	}
 
 	private String readFile(final String fileName) {
-		LOGGER.info("FileName " + fileName);
 		InputStream inputStream = SendGridEmailServer.class.getResourceAsStream(fileName);
-		LOGGER.info("InputStream... " + inputStream.toString());
 		String content = null;
 		try {
 			Path tempFile = Files.createTempDirectory("").resolve(UUID.randomUUID().toString() + ".tmp");
-			LOGGER.info("tempfile... " + tempFile);
-
 			Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
 			content = new String(Files.readAllBytes(tempFile));
-			LOGGER.info("content... " + content);
 		} catch (IOException ex) {
 			throw new EmailConstructorException(ex);
 		}
