@@ -3,8 +3,8 @@
  */
 package com.sk.bookstore.mail.sendgrid.impl;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -82,14 +82,12 @@ public class SendGridEmailServer implements EmailServer {
 	private String readFile(final String fileName) {
 		LOGGER.info("FileName... " + fileName);
 		String content;
-		ClassLoader classLoader = new SendGridEmailServer().getClass().getClassLoader();
-		InputStream inputStream = classLoader.getResourceAsStream(environment.getProperty("static.resource.location"));	    
+		File file = new File(environment.getProperty("static.resource.location"));
+//		ClassLoader cl = this.getClass().getClassLoader();
+//		InputStream inputStream = cl.getResourceAsStream(environment.getProperty("static.resource.location"));	    
 		try {
-			LOGGER.info("inputStream... " + inputStream);
-			Path tempFile = Files.createTempDirectory("").resolve(UUID.randomUUID().toString() + ".tmp");
-		    Files.copy(inputStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
-			LOGGER.info("tempfile... " + tempFile);
-		    content =  new String(Files.readAllBytes(tempFile));
+			LOGGER.info("File... " + file);
+		    content =  new String(Files.readAllBytes(file.toPath()));
 			LOGGER.info("Content... " + content);
 		} catch (IOException ex) {
 			throw new EmailConstructorException(ex);
