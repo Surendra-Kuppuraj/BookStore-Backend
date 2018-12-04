@@ -76,8 +76,10 @@
 		<dependency>
 			<groupId>com.sendgrid</groupId>
 			<artifactId>sendgrid-java</artifactId>
-			<version>4.2.1</version><!--$NO-MVN-MAN-VER$-->
+			<version>4.3.0</version>
 		</dependency>
+		<!-- <dependency> <groupId>com.sendgrid</groupId> <artifactId>java-http-client</artifactId> 
+			<version>4.1.0</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

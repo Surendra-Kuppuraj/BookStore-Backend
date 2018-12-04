@@ -4,17 +4,14 @@
 package com.sk.bookstore.mail.sendgrid.impl;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import com.sendgrid.Attachments;
 import com.sendgrid.Content;
@@ -46,7 +43,7 @@ public class SendGridEmailServer implements EmailServer {
 				setEmailObject(emailTo), content);
 		// Attaching logo image.
 		Attachments keysLogoAttachment = new Attachments();
-		keysLogoAttachment.setContent(this.readFile("logo.txt"));
+		keysLogoAttachment.setContent(this.readFile("files/logo.txt"));
 		keysLogoAttachment.setType("image/png");
 		keysLogoAttachment.setFilename("keys.png");
 		keysLogoAttachment.setDisposition("inline");
@@ -61,9 +58,7 @@ public class SendGridEmailServer implements EmailServer {
 			request.setEndpoint("mail/send");
 			request.setBody(mail.build());
 			Response response = sg.api(request);
-			LOGGER.info("Send Grid Email Response Status Code", response.getStatusCode());
-			LOGGER.info("Send Grid Email Body", response.getBody());
-			LOGGER.info("Send Grid Email Header", response.getHeaders());
+			LOGGER.info("Send Grid Email Response Status Code", response.toString());
 			LOGGER.info("Email {} has been send  successfully to the user ", emailTo);
 		} catch (IOException ex) {
 			LOGGER.error("Send Grid Email Server cannot be connected at the moment due to the following reason ", ex);
@@ -76,21 +71,14 @@ public class SendGridEmailServer implements EmailServer {
 	}
 
 	private String readFile(final String fileName) {
-		final StringBuffer strBuffer = new StringBuffer();
-		final File file = new File(getClass().getResource(fileName).getFile());
-
-//		File file;
-//		try {
-//			file = ResourceUtils.getFile("classpath:/"+fileName);
-//		} catch (FileNotFoundException ex) {
-//			throw new EmailConstructorException(ex);
-//		}
-		//final File file = new File(getClass().getResource(fileName).getFile());
-		try (Stream<String> stream = Files.lines(file.toPath())) {
-			stream.forEach(line -> strBuffer.append(line));
+		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+		String content;
+		try {
+			content = new String(Files.readAllBytes(file.toPath()));
 		} catch (IOException ex) {
 			throw new EmailConstructorException(ex);
 		}
-		return strBuffer.toString();
+		return content;
 	}
 }
